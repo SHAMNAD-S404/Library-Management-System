@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Admin</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-item .nav-link {
+            color: white;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card img {
+            height: 150px;
+            object-fit: cover;
+        }
+        .card-body {
+            text-align: center;
+        }
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .card-text {
+            font-size: 1rem;
+        }
+        .card-footer .btn {
+            width: 45%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Oldman's Library</a>
+        <div class="ml-auto">
+            <button class="btn btn-success mr-2" data-toggle="modal" data-target="#addBookModal">Add Book</button>
+            <a href="/admin/logout"><button class="btn btn-danger">Sign Out</button></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+   <div class="container mt-5">
+    <div class="row">
+        <% if(books && books.length > 0) { %>
+            <% books.forEach(book => { %>
+            <div class="col-md-6 col-lg-3 mb-4"> <!-- Use col-md-6 for 2 columns on medium screens, col-lg-3 for 4 columns on large screens -->
+                <div class="card">
+                    <img src="/book3.jpg" class="img-fluid" alt="Book Image">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= book.tittle %></h5>
+                        <p class="card-text">Author: <%= book.author %></p>
+                        <p class="card-text">Year: <%= book.year %></p>
+                        <p class="card-text">Price: <%= book.price %></p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#editBookModal<%=book._id%>" >Edit</button>
+                        <button class="btn btn-danger"  onclick="deleteBook('<%=book._id %>')" >Delete</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+           <!-- Edit Book Modal -->
+    <div class="modal fade" id="editBookModal<%=book._id%>" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addBookModalLabel">Edit Book</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editBookForm">
+                        <div class="form-group">
+                            <label for="bookName">Book Name</label>
+                            <input type="text" class="form-control" id="bookName<%= book._id  %>" value="<%=book.tittle%>" placeholder="Enter book name" required>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="author">Author</label>
+                            <input type="text" class="form-control" id="author<%= book._id  %>" value="<%=book.author%>" placeholder="Enter author name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="number" class="form-control" value="<%= book.year  %>" id="year<%= book._id %>" placeholder="Enter publication year" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control" value="<%= book.price %>" id="price<%= book._id %>" placeholder="Enter price" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="editBook" onclick="editBooks('<%=book._id%>')" >Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+            <% }); %>
+        <% } else { %>
+            <div class="col-12">
+                <h4>No books available</h4>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+
+    <!-- Add Book Modal -->
+    <div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addBookModalLabel">Add New Book</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addBookForm">
+                        <div class="form-group">
+                            <label for="bookName">Book Name</label>
+                            <input type="text" class="form-control" id="bookName" placeholder="Enter book name" required>
+                            <p style="color: red; display: none;" id="booknameError" ></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="author">Author</label>
+                            <input type="text" class="form-control" id="author" placeholder="Enter author name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="number" class="form-control" id="year" placeholder="Enter publication year" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control" id="price" placeholder="Enter price" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveBook">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+ 
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+   <script>
+
+//*************************************************************************************************************************        
+
+    document.getElementById('saveBook').addEventListener('click',async function() {
+
+        const bookName = document.getElementById('bookName').value;
+        const author = document.getElementById('author').value;
+        const year = document.getElementById('year').value;
+        const price = document.getElementById('price').value;
+
+        const namePattern = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+        const authorPattern = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+        const yearPattern = /^\d{4}$/;
+        const pricePattern = /^(?:[1-9]\d{2,3}|5000)$/;
+
+    if (!namePattern.test(bookName)) {
+        alert('Invalid Book Name: Only alphabets and numbers are allowed. Length must be between 3 to 15.');
+        return;
+    }
+
+    if (!authorPattern.test(author)) {
+        alert('Invalid Author Name: Only alphabets are allowed. Length must be between 4 to 10.');
+        return;
+    }
+
+    if (!yearPattern.test(year)) {
+        alert('Invalid Year: Must be a 4-digit number.');
+        return;
+    }
+
+    if (!pricePattern.test(price)) {
+        alert('Invalid Price: Must be a number between 100 and 5000.');
+        return;
+    }
+
+    
+    const response = await fetch('/admin/add-book',{
+        method:'POST',
+        headers : {'Content-Type': 'application/json'},
+        body : JSON.stringify({
+
+            tittle   : bookName,
+            author   : author,
+            year     : year,
+            price    : price
+        })
+    })
+
+
+    const data = await response.json()
+
+    if (data.sucess) {
+
+         Swal.fire({
+            title: "Saved",
+            icon: "success"
+
+            }).then(()=> {
+                window.location.reload();
+            })
+        
+    } else {
+
+         Swal.fire({
+            title: "failed",
+            icon: "info"
+            });
+        
+    }
+
+    // Close the modal
+    $('#addBookModal').modal('hide');
+
+    // Clear the form fields
+    document.getElementById('addBookForm').reset();
+
+
+});
+
+ //*************************************************************************************************************************
+
+    async function deleteBook(id) {
+
+        try {
+
+            const result = await fetch(`/admin/delete-book?id=${id}`,{
+                method : 'DELETE'
+            })
+
+            const data = await result.json()
+
+            console.log(data)
+
+            if (data.success) {
+                
+                 Swal.fire({
+                    title: "Deleted",
+                    icon: "success"
+                    
+                    }).then(()=> window.location.reload())        
+
+            } else {
+                
+                Swal.fire({
+                    title: "failed",
+                    icon: "error"
+                    
+                    })
+            }
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+        
+    }
+
+//**************************************************************************************************************************
+
+  async function editBooks(id) {
+
+        const bookName = document.getElementById('bookName'+id).value;
+        const author = document.getElementById('author'+id).value;
+        const year = document.getElementById('year'+id).value;
+        const price = document.getElementById('price'+id).value;
+
+        const namePattern = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+        const authorPattern = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+        const yearPattern = /^\d{4}$/;
+        const pricePattern = /^(?:[1-9]\d{2,3}|5000)$/;
+
+        console.log(bookName,author,year,price);
+        
+
+    if (!namePattern.test(bookName)) {
+        alert('Invalid Book Name: Only alphabets and numbers are allowed. Length must be between 3 to 15.');
+        return;
+    }
+
+    if (!authorPattern.test(author)) {
+        alert('Invalid Author Name: Only alphabets are allowed. Length must be between 4 to 10.');
+        return;
+    }
+
+    if (!yearPattern.test(year)) {
+        alert('Invalid Year: Must be a 4-digit number.');
+        return;
+    }
+
+    if (!pricePattern.test(price)) {
+        alert('Invalid Price: Must be a number between 100 and 5000.');
+        return;
+    }
+
+    
+    const response = await fetch('/admin/edit-book',{
+        method:'PATCH',
+        headers : {'Content-Type': 'application/json'},
+        body : JSON.stringify({
+
+            tittle   : bookName,
+            author   : author,
+            year     : year,
+            price    : price,
+            id       : id
+        })
+    })
+
+
+    const data = await response.json()
+
+    if (data.success) {
+
+         Swal.fire({
+            title: "Updated",
+            icon: "success"
+
+            }).then(()=> {
+                window.location.reload();
+            })
+        
+    } else {
+
+         Swal.fire({
+            title: "failed",
+            icon: "info"
+            });
+        
+    }
+
+    // Close the modal
+    $('#editBookModal').modal('hide');
+
+    // Clear the form fields
+    document.getElementById('editBookForm').reset();
+
+
+};
+
+
+             
+</script>
+
+
+
+</body>
+</html>

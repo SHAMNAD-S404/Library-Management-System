@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/adlogin.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center vh-100">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="card-title text-center">Login</h3>
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="email" required class="form-control" id="username" placeholder="Enter username"
+                                    >
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="Enter password"
+                                    required>
+                            </div>
+                            <button type="button" id="submitt" class="btn btn-primary btn-block">Login</button>
+                        </form>
+                        <div id="error" class="text-danger mt-3 d-none">Invalid username or password</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+
+           
+        document.getElementById('loginForm').addEventListener('keydown',(event)=> {
+
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById('submitt').click();
+            }
+        })
+
+
+        document.getElementById('submitt').addEventListener('click',async ()=> {
+
+             const username=document.getElementById('username').value
+             const password=document.getElementById('password').value
+
+             if (!username || !password) {
+                return Swal.fire({
+                   
+                          text: "Fill  fields",
+                          icon: "error"
+                        });
+             }
+
+             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+             const isValidEmail = emailPattern.test(username);
+
+             if (isValidEmail) {
+
+                const response =await fetch('admin/verify',{
+                    method : 'POST',
+                    headers: {'Content-type': 'application/json'},
+                    body : JSON.stringify({
+                        username:username,
+                        password:password
+                    })
+                })
+
+
+             if (response.redirected) {
+                return window.location.href = response.url; 
+             }
+
+             const data = await response.json()
+
+             if (data.success) {
+
+                    Swal.fire({
+                      
+                      text: data.success,
+                      icon: "success"
+                    }).then(()=>{
+                        return window.location.href = 'admin/home'
+                    })
+                
+             } else {
+
+                    Swal.fire({
+                      
+                      text: data.error,
+                      icon: "error"
+                    });
+
+                
+             }
+
+                
+             } else {
+
+                return Swal.fire({
+                          text: "Enter valid mail",
+                          icon: "error"
+                        });
+                
+             }
+
+       
+                         
+        })
+
+
+
+    </script>
+</body>
+
+</html>

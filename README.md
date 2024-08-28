@@ -1,10 +1,10 @@
-# Library Management System
+# Library Management System📚
 
-## Let's Go
+## Let's Go 🚀
 
 This Library Management System is a web application developed using Node.js, TypeScript, and MongoDB. It provides an efficient way to manage library operations, including user management, book management, and book lending. The system is designed to facilitate easy access and management of library resources.
 
-## Features
+## Features 🧰🪄
 
 - **User Authentication:** Secure login and registration for users.
 - **Book Management:** Add, update, delete, and view books.
@@ -13,7 +13,7 @@ This Library Management System is a web application developed using Node.js, Typ
 - **Search Functionality:** Search for books and members efficiently.
 - **Responsive Design:** Accessible and functional across various devices.
 
-## Technologies Used
+## Technologies Used 🧑‍🔧👨‍💻
 
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB, Mongoose
@@ -22,7 +22,7 @@ This Library Management System is a web application developed using Node.js, Typ
 - **JavaScript:** For Dynamic and non blocking i/0 operations
 - **Authentication:** Express-session and other relevant middleware
 
-## Installation
+## Installation ⚙️
 
 To get started with the Library Management System, follow these steps:
 
@@ -64,14 +64,14 @@ To get started with the Library Management System, follow these steps:
 
     Open your web browser and go to `http://localhost:3003` to access the Library Management System.
 
-## Usage
+## Usage 💻
 
 - **Authentication:** Register or log in to access library features.
 - **Manage Books:** Use the interface to add, edit, or delete books from the library.
 - **Manage Members:** Add and manage library members.
 - **Book Lending:** Check out and return books, with due date tracking.
 
-## Contributing
+## Contributing 🎮
 
 Contributions are welcome! If you have suggestions or improvements, please feel free to submit a pull request or open an issue. For detailed contribution guidelines, refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
@@ -79,7 +79,7 @@ Contributions are welcome! If you have suggestions or improvements, please feel 
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Contact
+## Contact 📲
 
 For any questions or feedback, please reach out to me at [shamnadsakeer306@gmail.com](mailto:shamnadsakeer306@gmail.com).
 

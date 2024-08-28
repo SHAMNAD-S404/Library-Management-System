@@ -1,6 +1,6 @@
 # Library Management System
 
-## Description
+## Let's Go
 
 This Library Management System is a web application developed using Node.js, TypeScript, and MongoDB. It provides an efficient way to manage library operations, including user management, book management, and book lending. The system is designed to facilitate easy access and management of library resources.
 

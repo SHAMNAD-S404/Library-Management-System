@@ -19,7 +19,7 @@
         try {
             res.render('login')
         } catch (error) {
-            console.log(error);       
+            console.error(error);       
         }
     }
 
@@ -37,13 +37,12 @@
                }else{
 
                     customReq.session.admin = userName;                
-
                     return res.status(200).json({success:"Welcome Admin"})
                }
                 
 
             } catch (error) {
-                console.log(error);
+                console.error(error);
                 
             }
     }
@@ -79,7 +78,7 @@
 
             
         } catch (error) {
-            console.log(error);
+            console.error(error);
             
         }
     }
@@ -101,7 +100,7 @@
             }
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
             
         }
 
@@ -123,7 +122,7 @@
             }
             
         } catch (error) {
-            console.log(error);
+            console.error(error);
             
         }
     }
@@ -138,7 +137,7 @@
             
             
         } catch (error) {
-            console.log(error);
+            console.error(error);
             
         }
     }
